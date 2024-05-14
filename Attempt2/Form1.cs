@@ -17,7 +17,6 @@ namespace Attempt2
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyIsDown);
             StartGame();
         }
@@ -56,31 +55,35 @@ namespace Attempt2
         }
         public void MainEvent(object sender, EventArgs e)
         {
-            if (goLeft && !treeMap[0])
+            if (goRight || goLeft)
             {
-                score++;
-                treeMap.RemoveAt(0); 
-                if (random.Next(1, 3) == 1)
-                    treeMap.Add(true);
+                if (goLeft && !treeMap[0])
+                {
+                    score++;
+                    treeMap.RemoveAt(0); 
+                    if (random.Next(1, 3) == 1)
+                        treeMap.Add(true);
+                    else
+                        treeMap.Add(false);
+                    PbxLumberJack.Location = new Point(185, 291);
+                }
+                else if (goRight && treeMap[0])
+                {
+                    score++;
+                    treeMap.RemoveAt(0); 
+                    if (random.Next(1, 3) == 1)
+                        treeMap.Add(true);
+                    else
+                        treeMap.Add(false);
+                    PbxLumberJack.Location = new Point(430, 291);
+                }
                 else
-                    treeMap.Add(false);
-                PbxLumberJack.Location = new Point(185, 291);
+                {
+                    MessageBox.Show("You Lost!\nYour score was " + score);
+                    StartGame();
+                }
             }
-            else if (goRight && treeMap[0])
-            {
-                score++;
-                treeMap.RemoveAt(0); 
-                if (random.Next(1, 3) == 1)
-                    treeMap.Add(true);
-                else
-                    treeMap.Add(false);
-                PbxLumberJack.Location = new Point(430, 291);
-            }
-            else
-            {
-                MessageBox.Show("You Lost!\nYour score was " + score);
-                StartGame();
-            }
+            
             goLeft = false;
             goRight = false;
             LblScore.Text = score.ToString();
